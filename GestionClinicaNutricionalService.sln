@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionClinicaNutricional.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionClinicaNutricional.Infrastructure", "GestionClinicaNutricional.Infrastructure\GestionClinicaNutricional.Infrastructure.csproj", "{564190CE-8D5E-4312-BA9C-0EDB4BA16245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9C90F0D8-42F7-45EF-821D-3833577DBBDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{564190CE-8D5E-4312-BA9C-0EDB4BA16245}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{564190CE-8D5E-4312-BA9C-0EDB4BA16245}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{564190CE-8D5E-4312-BA9C-0EDB4BA16245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C90F0D8-42F7-45EF-821D-3833577DBBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C90F0D8-42F7-45EF-821D-3833577DBBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C90F0D8-42F7-45EF-821D-3833577DBBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C90F0D8-42F7-45EF-821D-3833577DBBDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

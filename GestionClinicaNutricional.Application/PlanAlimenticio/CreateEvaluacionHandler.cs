@@ -8,7 +8,6 @@ namespace GestionClinicaNutricional.Application.PlanAlimenticio
 {
     public class CreateEvaluacionHandler(
         IPlanAlimenticioRepository planAlimenticioRepository,
-        IConsultaInicialRepository consultaInicialRepository,
         IUnitOfWork unitOfWork)
         : IRequestHandler<CreateEvaluacionCommand, Result<Guid>>
     

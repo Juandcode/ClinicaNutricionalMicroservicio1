@@ -2,6 +2,14 @@
 **/bin/
 **/obj/
 
+# Archivos generados por source generators (EmitCompilerGeneratedFiles)
+**/Generated/
+
+# Resultados de test y reportes de cobertura (se regeneran con dotnet test / reportgenerator)
+TestResults/
+**/TestResults/
+coveragereport/
+
 # Publish output
 **/publish/
 **/out/

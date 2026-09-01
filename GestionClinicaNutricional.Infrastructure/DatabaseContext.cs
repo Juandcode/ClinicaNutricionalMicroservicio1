@@ -1,10 +1,12 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using GestionClinicaNutricional.Domain;
 using Joseco.DDD.Core.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionClinicaNutricional.Infrastructure;
 
+[ExcludeFromCodeCoverage]
 public class DatabaseContext: DbContext
 {
     public DbSet<ConsultaInicial> ConsultaInicial { get; set; }
