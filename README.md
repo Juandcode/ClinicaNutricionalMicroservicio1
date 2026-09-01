@@ -55,6 +55,15 @@ reportgenerator -reports:"Tests/TestResults/*/coverage.cobertura.xml" -targetdir
 
 Luego abrir `coveragereport/index.html` en el navegador.
 
+### Automatización
+
+- **Claude Code:** este flujo completo (correr tests, generar el reporte de cobertura y resumir el resultado) está empaquetado en el skill [`test-coverage`](.claude/skills/test-coverage), invocable con `/test-coverage` dentro de una sesión de Claude Code.
+- **CI (GitHub Actions):** [`.github/workflows/tests.yml`](.github/workflows/tests.yml) corre este mismo flujo en cada push y pull request a `main`:
+  - Restaura dependencias y corre los tests en `Release` con `--collect:"XPlat Code Coverage"` y `coverlet.runsettings`.
+  - Genera el reporte de cobertura (HTML, Markdown, badges) con ReportGenerator y publica el resumen en `GITHUB_STEP_SUMMARY` (visible directamente en la pestaña *Actions* del run).
+  - Sube dos artifacts descargables: `test-results` (.trx) y `coverage-report` (HTML), con 15 días de retención.
+  - Los steps de reporte corren con `if: always()`, así que el reporte se genera incluso si algún test falla.
+
 ### Estado actual de la cobertura
 
 ![Resumen de cobertura de código](docs/coverage-summary.png)
