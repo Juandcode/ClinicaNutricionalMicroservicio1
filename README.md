@@ -57,12 +57,42 @@ Luego abrir `coveragereport/index.html` en el navegador.
 
 ### Automatización
 
-- **Claude Code:** este flujo completo (correr tests, generar el reporte de cobertura y resumir el resultado) está empaquetado en el skill [`test-coverage`](.claude/skills/test-coverage), invocable con `/test-coverage` dentro de una sesión de Claude Code.
+- **Claude Code:** este flujo completo (correr los tests unitarios, verificar los tests de integración, generar el reporte de cobertura y resumir el resultado) está empaquetado en el skill [`test-coverage`](.claude/skills/test-coverage), invocable con `/test-coverage` dentro de una sesión de Claude Code.
 - **CI (GitHub Actions):** [`.github/workflows/tests.yml`](.github/workflows/tests.yml) corre este mismo flujo en cada push y pull request a `main`:
   - Restaura dependencias y corre los tests en `Release` con `--collect:"XPlat Code Coverage"` y `coverlet.runsettings`.
   - Genera el reporte de cobertura (HTML, Markdown, badges) con ReportGenerator y publica el resumen en `GITHUB_STEP_SUMMARY` (visible directamente en la pestaña *Actions* del run).
   - Sube dos artifacts descargables: `test-results` (.trx) y `coverage-report` (HTML), con 15 días de retención.
   - Los steps de reporte corren con `if: always()`, así que el reporte se genera incluso si algún test falla.
+
+### Tests de integración
+
+El proyecto `IntegrationTests` contiene tests de integración (xUnit + `Microsoft.AspNetCore.Mvc.Testing`). Levantan la app real vía `IntegrationTests.Setup.WebApplicationFactory` (`WebApplicationFactory<Program>`), pegan a los endpoints HTTP de los controllers y verifican el resultado contra la base de datos real.
+
+#### Ejecutar los tests de integración
+
+Requieren una instancia local de SQL Server Express (`localhost\SQLEXPRESS`), hoy la misma que usa el entorno de desarrollo (`Database=ClinicaNutricional`).
+
+```bash
+dotnet test IntegrationTests/IntegrationTests.csproj
+```
+
+#### Reglas
+
+1. **Un framework por proyecto.** xUnit es solo para `IntegrationTests/`; `Tests/` usa NUnit + FakeItEasy. No mezclarlos.
+2. **Usar la factory existente.** Todos los tests usan `IClassFixture<WebApplicationFactory>`; no crear factories nuevas ni tocar `ConfigureWebHost` desde un test.
+3. **Un test = un escenario.** Cada test crea su propio `client` con `factory.CreateClient()` y no comparte estado con otros tests.
+4. **Rutas reales.** Pegar a las rutas que exponen los controllers (ej. `api/v1/Patient/CreatePaciente`), no inventar rutas; si se repiten, extraerlas a una constante.
+5. **Deserializar con DTO.** Usar `response.Content.ReadFromJsonAsync<T>()` con un DTO declarado en `IntegrationTests/Setup/` (ej. `PacienteCreateResponse`), nunca `dynamic` ni `JsonDocument`.
+6. **Flujo end-to-end.** `client.PostAsJsonAsync(...)` → `response.EnsureSuccessStatusCode()` → deserializar → asertar `IsSuccess`/`IsFailure` → resolver el repositorio en un scope propio (`factory.Services.CreateScope()`) y verificar la persistencia con `GetByIdAsync`.
+7. **Datos de prueba únicos.** Generar datos únicos (ej. CI con `Guid.NewGuid()`) para evitar colisiones; no usar valores fijos como `CI = "343243"`.
+8. **Sin placeholders.** No dejar archivos `UnitTest1.cs` vacíos.
+9. **Nombres.** Mantener el patrón `Accion_Condicion` (ej. `CreatePaciente_WithValidRequest`), un test por caso.
+
+#### Deuda técnica
+
+- `IntegrationTests.Setup.WebApplicationFactory` tiene el mismo nombre que `Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`: conviene renombrarlo (ej. `IntegrationTestFactory`).
+- La factory apunta a la misma BD que desarrollo (`ClinicaNutricional`) y no limpia nada: el campo `_dbName` ya existe pero no se usa, y `DisposeAsync` es un no-op. Debería usar una base única por corrida y dropearla (o limpiar tablas) al terminar.
+- El CI (`.github/workflows/tests.yml`) solo corre `Tests/`; `IntegrationTests` no está en el pipeline.
 
 ### Estado actual de la cobertura
 
