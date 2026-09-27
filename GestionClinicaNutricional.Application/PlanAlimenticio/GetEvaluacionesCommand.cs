@@ -4,7 +4,7 @@ using MediatR;
 
 namespace GestionClinicaNutricional.Application.PlanAlimenticio
 {
-    public record GetEvaluacionesCommand: IRequest<Result<List<Evaluacion>>>
+    public class GetEvaluacionesCommand: IRequest<Result<List<Evaluacion>>>
     {
         public Guid PlanAlimenticioId { get; set; }
     }

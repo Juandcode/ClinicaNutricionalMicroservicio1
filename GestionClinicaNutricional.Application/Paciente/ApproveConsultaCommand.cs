@@ -3,7 +3,7 @@ using MediatR;
 
 namespace GestionClinicaNutricional.Application.Paciente
 {
-    public record ApproveConsultaCommand: IRequest<Result<Guid>>
+    public class ApproveConsultaCommand: IRequest<Result<Guid>>
     {
         public Guid ConsultaId { get; init; }
     }
