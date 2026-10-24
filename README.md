@@ -6,10 +6,11 @@ Diagrama actualizado:
 - **CQRS**: Uso de MediatR para separar comandos (escritura) de queries (lectura).
 - **Transactional Outbox**: Garantiza la entrega de eventos hacia RabbitMQ.
     - Los eventos de dominio se persisten en la tabla `OutboxMessages` dentro de la misma transacción de negocio.
-    - Un `WorkerService` procesa estos mensajes y los publica externamente, asegurando la consistencia eventual.
+    - Un `WorkerService` actúa como procesador de fondo: monitorea la tabla de Outbox, recupera los mensajes no procesados y los publica en el exchange de RabbitMQ, asegurando la consistencia eventual.
 - **CPM (Central Package Management)**: Gestión de versiones de NuGet centralizada en `Directory.Packages.props`.
 
 ## Endpoints de la API
+...
 ...
 
 ### MS1 - Clínica
