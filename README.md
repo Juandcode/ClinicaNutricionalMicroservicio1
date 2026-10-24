@@ -1,7 +1,16 @@
 Diagrama actualizado:
 ![Diagrama de arquitectura](Untitled Diagram2.drawio.png)
 
+## Patrones Implementados
+- **DDD & Clean Architecture**: Separación clara en capas de Dominio, Aplicación e Infraestructura.
+- **CQRS**: Uso de MediatR para separar comandos (escritura) de queries (lectura).
+- **Transactional Outbox**: Garantiza la entrega de eventos hacia RabbitMQ.
+    - Los eventos de dominio se persisten en la tabla `OutboxMessages` dentro de la misma transacción de negocio.
+    - Un `WorkerService` procesa estos mensajes y los publica externamente, asegurando la consistencia eventual.
+- **CPM (Central Package Management)**: Gestión de versiones de NuGet centralizada en `Directory.Packages.props`.
+
 ## Endpoints de la API
+...
 
 ### MS1 - Clínica
 
