@@ -1,10 +1,13 @@
 ﻿using System.Collections.Immutable;
 using Joseco.DDD.Core.Abstractions;
+using Joseco.Outbox.Contracts.Model;
+using Joseco.Outbox.EFCore.Persistence;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestionClinicaNutricional.Infrastructure
 {
-    internal class UnitOfWork : IUnitOfWork
+    internal class UnitOfWork : IUnitOfWork, IOutboxDatabase<DomainEvent>
     {
         private readonly DatabaseContext _dbContext;
         private readonly IMediator _mediator;
@@ -14,6 +17,8 @@ namespace GestionClinicaNutricional.Infrastructure
             _dbContext = dbContext;
             _mediator = mediator;
         }
+
+        public DbSet<OutboxMessage<DomainEvent>> GetOutboxMessages() => _dbContext.OutboxMessages;
 
         public async Task CommitAsync(CancellationToken cancellationToken = default)
         {

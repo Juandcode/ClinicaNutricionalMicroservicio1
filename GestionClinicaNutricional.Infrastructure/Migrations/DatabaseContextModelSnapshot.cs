@@ -17,7 +17,7 @@ namespace GestionClinicaNutricional.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.0")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -190,6 +190,39 @@ namespace GestionClinicaNutricional.Infrastructure.Migrations
                     b.ToTable("PlanComida");
                 });
 
+            modelBuilder.Entity("Joseco.Outbox.Contracts.Model.OutboxMessage<Joseco.DDD.Core.Abstractions.DomainEvent>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CorrelationId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Processed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SpanId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TraceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OutboxMessages");
+                });
+
             modelBuilder.Entity("GestionClinicaNutricional.Domain.ConsultaInicial", b =>
                 {
                     b.HasOne("GestionClinicaNutricional.Domain.Paciente", "Paciente")
@@ -200,15 +233,19 @@ namespace GestionClinicaNutricional.Infrastructure.Migrations
 
                     b.OwnsMany("GestionClinicaNutricional.Domain.Antecedente", "Antecedentes", b1 =>
                         {
-                            b1.Property<Guid>("ConsultaInicialId");
+                            b1.Property<Guid>("ConsultaInicialId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<int>("__synthesizedOrdinal")
-                                .ValueGeneratedOnAddOrUpdate();
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
 
                             b1.Property<string>("Descripcion")
-                                .IsRequired();
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("Problema");
+                            b1.Property<int>("Problema")
+                                .HasColumnType("int");
 
                             b1.HasKey("ConsultaInicialId", "__synthesizedOrdinal");
 

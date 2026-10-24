@@ -7,11 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+      <PackageReference Include="Joseco.Communication.External.Contracts" />
+      <PackageReference Include="Joseco.Communication.External.RabbitMQ" />
+      <PackageReference Include="Joseco.Outbox.EFCore" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+<!--      <PackageReference Include="Nur.Tricenter.Observability" />-->
+<!--      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />-->
     </ItemGroup>
 
     <ItemGroup>

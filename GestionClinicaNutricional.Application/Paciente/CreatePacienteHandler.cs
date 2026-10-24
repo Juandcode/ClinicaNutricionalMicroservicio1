@@ -10,15 +10,12 @@ namespace GestionClinicaNutricional.Application.Paciente
     {
         public async Task<Result<Guid>> Handle(CreatePacienteCommand request, CancellationToken cancellationToken)
         {
-            Domain.Paciente pacienteReq = new Domain.Paciente()
-            {
-                Nombre = request.Nombre,
-                Apellido = request.Apellido,
-                CI = request.CI
-            };
-            await pacienteRepository.AddAsync(pacienteReq);
+            var paciente = Domain.Paciente.Crear(request.CI, request.Nombre, request.Apellido);
+            
+            await pacienteRepository.AddAsync(paciente);
             await unitOfWork.CommitAsync(cancellationToken);
-            return pacienteReq.Id;
+            
+            return paciente.Id;
         }
     }
 }

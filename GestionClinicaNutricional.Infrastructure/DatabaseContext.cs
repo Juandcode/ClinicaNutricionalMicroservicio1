@@ -2,6 +2,7 @@
 using System.Reflection;
 using GestionClinicaNutricional.Domain;
 using Joseco.DDD.Core.Abstractions;
+using Joseco.Outbox.Contracts.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionClinicaNutricional.Infrastructure;
@@ -14,6 +15,8 @@ public class DatabaseContext: DbContext
     public DbSet<PlanAlimenticio> PlanAlimenticio { get; set; }
     public DbSet<Evaluacion> Evaluacion { get; set; }
     public DbSet<HabitoAlimenticio> HabitoAlimenticio { get; set; }
+    
+    public DbSet<OutboxMessage<DomainEvent>> OutboxMessages { get; set; } = null!;
     
     
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)

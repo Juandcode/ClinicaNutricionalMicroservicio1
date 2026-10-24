@@ -1,8 +1,18 @@
 using System.Reflection;
 using GestionClinicaNutricional.Infrastructure;
+//using GestionClinicaNutricional.Infrastructure.DependencyInjection;
 using GestionClinicaNutricionalService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Disable service validation to prevent crashes on startup if some optional services are missing
+builder.Host.UseDefaultServiceProvider(options => 
+{
+    // options.ValidateScopes = false;
+    // options.ValidateOnBuild = false;
+});
+
+
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -15,7 +25,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddOpenApiDocument(config =>
 {
     config.SchemaSettings.FlattenInheritanceHierarchy = true;
-    config.SchemaSettings.SchemaProcessors.Add(new ExcludeHabitoAlimenticioPropertySchemaProcessor());
+    //config.SchemaSettings.SchemaProcessors.Add(new ExcludeHabitoAlimenticioPropertySchemaProcessor());
 });
 
 var app = builder.Build();

@@ -12,6 +12,6 @@ namespace GestionClinicaNutricional.Application.Paciente
         public string Composicion { get; init; }
         public List<Antecedente> Antecedentes { get; init; }
         public List<HabitoAlimenticio> HabitoAlimenticios { get; init; }
-        [JsonIgnore] public Guid PacienteId { get; init; }
+        public Guid PacienteId { get; init; }
     }
 }
