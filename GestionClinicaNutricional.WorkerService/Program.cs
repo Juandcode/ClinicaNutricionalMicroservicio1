@@ -2,6 +2,7 @@ using System.Reflection;
 using Joseco.DDD.Core.Abstractions;
 using Joseco.Outbox.EFCore;
 using GestionClinicaNutricional.Application;
+using GestionClinicaNutricional.Application.UseCase.DomainEventHandler;
 using GestionClinicaNutricional.Infrastructure;
 //using GestionClinicaNutricional.Infrastructure.Observability;
 using GestionClinicaNutricional.WorkerService;
@@ -27,11 +28,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 //     "gestion-clinica-nutricional-service",
 //     shouldIncludeHttpInstrumentation: false);
 
-builder.Services.AddIntegrationMessaging();
-
 builder.Services.AddGestionClinicaRabbitMq(builder.Configuration);
-//builder.Services.AddIntegrationMessaging();
-
 
 builder.Services.AddOutboxBackgroundService<DomainEvent>();
 

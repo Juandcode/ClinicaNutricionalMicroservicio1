@@ -6,6 +6,7 @@ using FakeItEasy;
 using GestionClinicaNutricional.Application.Paciente;
 using GestionClinicaNutricional.Application.PlanAlimenticio;
 using GestionClinicaNutricional.Domain;
+using GestionClinicaNutricionalService.Contracts;
 using GestionClinicaNutricionalService.WebApi.Controllers;
 using Joseco.DDD.Core.Results;
 using MediatR;
@@ -51,14 +52,14 @@ namespace Tests
         {
             // Arrange
             var pacienteId = Guid.NewGuid();
-            var command = new CreatePlanAlimenticioCommand
+            var command = new CreatePlanAlimenticioRequest
             {
                 Nombre = "Plan",
                 Descripcion = "Descripcion",
                 DuracionPlan = DuracionPlan.Mes,
                 EstadoPlan = EstadoPlan.Vigente,
                 FechaVencimiento = DateTime.Now.AddDays(30),
-                PlanComidas = new List<PlanComida>()
+                PlanComidas = new List<PlanComidaRequest>()
             };
             Result<Guid> mediatorResult = Guid.NewGuid();
 

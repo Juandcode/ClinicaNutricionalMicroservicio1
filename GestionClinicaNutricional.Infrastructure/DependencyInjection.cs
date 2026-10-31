@@ -20,10 +20,17 @@ namespace GestionClinicaNutricional.Infrastructure
         {
             services.AddApplication();
             
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException(
+                    "Connection string 'DefaultConnection' is missing or empty.");
+            }
+
             services.AddDbContext<DatabaseContext>(
                 context =>
-                    context.UseSqlServer(
-                        "Server=localhost\\SQLEXPRESS;Database=ClinicaNutricional;MultipleActiveResultSets=True;Trusted_Connection=True;TrustServerCertificate=True"));
+                    context.UseSqlServer(connectionString));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IOutboxDatabase<DomainEvent>, UnitOfWork>().AddOutbox<DomainEvent>();

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using GestionClinicaNutricional.Application.Paciente;
 using GestionClinicaNutricional.Domain;
+using GestionClinicaNutricionalService.Contracts;
 using GestionClinicaNutricionalService.WebApi.Controllers;
 using Joseco.DDD.Core.Results;
 using MediatR;
@@ -29,13 +30,13 @@ namespace Tests
         {
             // Arrange
             var pacienteId = Guid.NewGuid();
-            var command = new CreateConsultaCommand
+            var command = new CreateConsultaRequest
             {
                 Peso = 70,
                 Altura = 1.75,
                 Composicion = "Composicion de prueba",
-                Antecedentes = new List<Antecedente>(),
-                HabitoAlimenticios = new List<HabitoAlimenticio>()
+                Antecedentes = new List<AntecedenteRequest>(),
+                HabitoAlimenticios = new List<HabitoAlimenticioRequest>()
             };
             Result<Guid> mediatorResult = Guid.NewGuid();
 

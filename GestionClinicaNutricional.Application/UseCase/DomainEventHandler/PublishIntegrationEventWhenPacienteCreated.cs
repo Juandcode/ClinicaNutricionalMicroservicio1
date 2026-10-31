@@ -35,7 +35,7 @@ namespace GestionClinicaNutricional.Application.UseCase.DomainEventHandler
 
             var message = new PacientePublished(notification.CorrelationId, Source)
             {
-                PacienteId = pacienteCreated.PacienteId,
+                PacienteId = pacienteCreated.Id,
                 CI = pacienteCreated.CI,
                 Nombre = pacienteCreated.Nombre,
                 Apellido = pacienteCreated.Apellido

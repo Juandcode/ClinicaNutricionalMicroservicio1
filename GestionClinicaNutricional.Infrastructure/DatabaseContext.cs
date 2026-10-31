@@ -3,6 +3,7 @@ using System.Reflection;
 using GestionClinicaNutricional.Domain;
 using Joseco.DDD.Core.Abstractions;
 using Joseco.Outbox.Contracts.Model;
+using Joseco.Outbox.EFCore.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionClinicaNutricional.Infrastructure;
@@ -23,15 +24,10 @@ public class DatabaseContext: DbContext
     {
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(
-            $"Server=localhost\\SQLEXPRESS;Database=ClinicaNutricional3;MultipleActiveResultSets=True;Trusted_Connection=True;TrustServerCertificate=True");
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.AddOutboxModel<DomainEvent>();
 
         base.OnModelCreating(modelBuilder);
         
